@@ -75,10 +75,47 @@ An app which recommends you an anime to watch through certain options that the u
 ### [BONUS] Interactive Prototype
 
 ## Schema 
-[This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+#### anime_post
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | animeTitle      | String   | title for the anime |
+   | image         | Image     | anime poster |
+   | description       | String   | anime description |
+   | rating | Number   | anime user rating |
+   | tag | String   | anime genre |
+   | year | Number   | anime release year |
+   | season | String   | anime release season |
+   | format | String   | anime format |
+   
+#### anime_search
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | animeId      | String   | unique id for the anime |
+   | tag | String   | anime categories |
+   
+#### user_profile
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | userId      | String   | user identification |
+   | prodileImage         | Image     | user photo |
+   | userBio       | String   | user description |
+   
+   
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+#### Existing API Endpoints
+##### Anilist API
+- Base URL - [https://anilist.gitbook.io/anilist-apiv2-docs/](https://anilist.gitbook.io/anilist-apiv2-docs/)
+
+   HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /title | get anime title
+    `GET`    | /description | get anime desicription
+    `GET`    | /genre | get anime genre
+    `GET`    | /year   | get release year
+    `GET`    | /season | get release season
+    `GET`    | /format | get anime format
