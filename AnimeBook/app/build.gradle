@@ -28,6 +28,12 @@ android {
     }
 }
 
+ext {
+    appCompatVersion = '1.0.0'
+    designSupportVersion = '1.0.0'
+    recyclerViewVersion = '1.0.0'
+}
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
@@ -39,7 +45,18 @@ dependencies {
 
     //Dependencies for parser
     implementation 'com.github.parse-community.Parse-SDK-Android:parse:1.26.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1' // for logging API calls to LogCat
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    // for logging API calls to LogCat
+    //-------------------------------------------------------------------------------------------------
+
+    //Dependencies for design support library
+
+    implementation "androidx.appcompat:appcompat:${appCompatVersion}"
+    implementation "com.google.android.material:material:${designSupportVersion}"
+    //-------------------------------------------------------------------------------------------------
+
+    //Dependencies for recycler view
+    implementation "androidx.recyclerview:recyclerview:${recyclerViewVersion}"
     //-------------------------------------------------------------------------------------------------
 
 }
