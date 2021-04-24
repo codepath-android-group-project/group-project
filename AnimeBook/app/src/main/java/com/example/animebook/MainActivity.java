@@ -6,11 +6,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "MainActivity";
+
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -33,9 +36,16 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()){
                     case R.id.action_animeList:
                         //fragment = animeFragment;
+                        Log.i(TAG, "Anime List Selected");
+                        break;
+                    case R.id.action_search:
+                        //fragment = searchFragment;
+                        Log.i(TAG, "Search Selected");
                         break;
                     //Add other cases as needed
                     default:
+                        //fragment = profileFragment;
+                        Log.i(TAG, "Profile Selected");
                         break;
                 }
                 //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
