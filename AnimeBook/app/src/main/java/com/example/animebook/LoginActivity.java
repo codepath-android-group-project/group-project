@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername;
     EditText etPassword;
     Button btnLogin;
+    TextView tvRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +29,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //If user is already logged in go to main activity
-        if(ParseUser.getCurrentUser() != null){
-            goToMainActivity();
-        }
+//        if(ParseUser.getCurrentUser() != null){
+//            goToMainActivity();
+//        }
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvRegister = findViewById(R.id.tvRegister);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,9 +46,18 @@ public class LoginActivity extends AppCompatActivity {
                 String password = etPassword.getText().toString();
                 loginUser(username, password);
             }
+
+        });
+
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToRegisterActivity();
+            }
         });
 
     }
+
 
     private void loginUser(String username, String password) {
         Log.i(TAG, "Trying to login user:" + username);
@@ -67,9 +79,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
+        finishAffinity();
         startActivity(i);
         //Removes login activity from backstack
-        finish();
+    }
 
+    private void goToRegisterActivity() {
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
     }
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
+    android:clickable="true"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
@@ -32,4 +33,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Login" />
+
+    <TextView
+        android:id="@+id/tvRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:text="Don't have an account? Register here."
+        android:textAlignment="center" />
 </LinearLayout>
