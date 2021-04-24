@@ -79,9 +79,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
+        //Clears backstack
         finishAffinity();
+
         startActivity(i);
-        //Removes login activity from backstack
     }
 
     private void goToRegisterActivity() {
