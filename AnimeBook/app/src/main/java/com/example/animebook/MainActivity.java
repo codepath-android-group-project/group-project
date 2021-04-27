@@ -8,12 +8,14 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.animebook.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
-
+    final FragmentManager fragmentManager = getSupportFragmentManager();
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -23,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-
         //TODO: Define fragments here
         //final Fragment animeFragment = new AnimeFragment();
         //add others as needed
@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
+                //will change this once all other fragments are done
+                Fragment fragment = new Fragment();
                 switch (item.getItemId()){
                     case R.id.action_animeList:
                         //fragment = animeFragment;
@@ -43,12 +44,15 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG, "Search Selected");
                         break;
                     //Add other cases as needed
+                    case R.id.action_profile:
                     default:
+                        Toast.makeText(MainActivity.this, "profile",Toast.LENGTH_SHORT).show();
+                        fragment = new ProfileFragment();
                         //fragment = profileFragment;
                         Log.i(TAG, "Profile Selected");
                         break;
                 }
-                //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
