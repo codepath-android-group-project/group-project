@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/anime_item_background">
 
     <ImageView
         android:id="@+id/ivCover"
-        android:layout_width="210dp"
+        android:layout_width="150dp"
         android:layout_height="204dp"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -23,15 +24,16 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="0dp"
-        android:background="#8B4E4545"
+        android:background="#D04E4545"
         android:gravity="center"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         tools:text="This is here for a long ass title idk what the title will be just need to knwo how it will look" />
 
     <TextView
         android:id="@+id/tvEpisodes"
-        android:layout_width="101dp"
-        android:layout_height="32dp"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ivCover"
         android:layout_alignParentStart="true"
         android:layout_marginStart="0dp"
@@ -39,19 +41,23 @@
         android:background="@drawable/anime_item_background"
         android:gravity="center"
         android:textAlignment="center"
+        android:textColor="@color/black"
         tools:text="15 ep" />
 
     <TextView
         android:id="@+id/tvStatus"
-        android:layout_width="108dp"
-        android:layout_height="32dp"
+        android:layout_width="103dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ivCover"
+        android:layout_alignEnd="@+id/ivCover"
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/tvEpisodes"
         android:background="@drawable/anime_item_background"
         android:gravity="center"
         android:textAlignment="center"
+        android:textColor="@color/black"
         tools:text="Completed" />
 
 </RelativeLayout>
