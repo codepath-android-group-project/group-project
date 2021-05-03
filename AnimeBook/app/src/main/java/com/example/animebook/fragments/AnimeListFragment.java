@@ -5,25 +5,32 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestHeaders;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animebook.R;
+import com.example.animebook.adapters.AnimeListAdapter;
+import com.example.animebook.models.Anime;
 import com.facebook.stetho.json.annotation.JsonProperty;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.FormBody;
@@ -45,7 +52,9 @@ public class AnimeListFragment extends Fragment {
 
     public static final String Url = "https://graphql.anilist.co";
     private AsyncHttpClient client;
-    private Button btnMakeRequest;
+    private RecyclerView rvAnimes;
+    protected AnimeListAdapter animeListAdapter;
+    protected List<Anime> allAnimes;
 
     public AnimeListFragment() {
         // Required empty public constructor
@@ -64,18 +73,21 @@ public class AnimeListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         client = new AsyncHttpClient();
 
-        btnMakeRequest = view.findViewById(R.id.btnMakeRequest);
+       rvAnimes = view.findViewById(R.id.rvAnimes);
+       allAnimes = new ArrayList<>();
+       animeListAdapter = new AnimeListAdapter(getContext(), allAnimes);
 
-        btnMakeRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    sendRequest();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+       rvAnimes.setAdapter(animeListAdapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+
+        rvAnimes.setLayoutManager(linearLayoutManager);
+        try {
+            sendRequest();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void sendRequest() throws JSONException {
@@ -83,10 +95,13 @@ public class AnimeListFragment extends Fragment {
                 "  Media (genre: $genre, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n" +
                 "    id\n" +
                 "    title {\n" +
-                "      romaji\n" +
-                "      native\n" +
+                "       english\n"+
                 "    }\n" +
-                "genres\n" +
+                "status\n"+
+                "episodes\n"+
+                "coverImage{\n"+
+                "   medium\n"+
+                "   }\n" +
                 "  }\n" +
                 "}\n";
 
@@ -108,6 +123,19 @@ public class AnimeListFragment extends Fragment {
             @Override
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.i(TAG, json.toString());
+
+                JSONObject jsonObject = json.jsonObject;
+
+                try {
+                    JSONObject results = jsonObject.getJSONObject("data").getJSONObject("Media");
+                    Log.i(TAG, "Results: " + results.toString());
+                    allAnimes.add(new Anime(results));
+//                    allAnimes.addAll(Anime.fromJsonArray(results));
+                    animeListAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+
+                    Log.e(TAG, "Hit json exception", e);
+                }
             }
 
             @Override
