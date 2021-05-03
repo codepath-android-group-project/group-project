@@ -12,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import com.bumptech.glide.request.target.Target;
 import com.example.animebook.R;
 import com.example.animebook.models.Anime;
 
@@ -61,6 +64,7 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvEpisodes = itemView.findViewById(R.id.tvEpisodes);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            ivCover  = itemView.findViewById(R.id.ivCover);
             container = itemView.findViewById(R.id.container);
         }
 
@@ -68,6 +72,8 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             tvTitle.setText(anime.getTitle());
             tvEpisodes.setText(anime.getEpisodes());
             tvStatus.setText(anime.getStatus());
+
+            Glide.with(context).load(anime.getPosterPath()).fitCenter().into(ivCover);
 
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
