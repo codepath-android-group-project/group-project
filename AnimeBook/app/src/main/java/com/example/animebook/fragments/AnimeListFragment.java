@@ -100,7 +100,7 @@ public class AnimeListFragment extends Fragment {
                 "status\n"+
                 "episodes\n"+
                 "coverImage{\n"+
-                "   medium\n"+
+                "   large\n"+
                 "   }\n" +
                 "  }\n" +
                 "}\n";
