@@ -17,10 +17,18 @@ public class Anime {
 
     public Anime(JSONObject jsonObject) throws JSONException {
         this.animeID = jsonObject.getInt("id");
-        this.posterPath = jsonObject.getJSONObject("coverImage").getString("large");
+        this.posterPath = jsonObject.getJSONObject("coverImage").getString("extraLarge");
         this.title = jsonObject.getJSONObject("title").getString("english");
-        this.episodes = jsonObject.getInt("episodes");
+        if(this.title.equals("null")){
+            this.title = jsonObject.getJSONObject("title").getString("romaji");
+        }
         this.status = jsonObject.getString("status");
+        if(this.status.equals("RELEASING")){
+            this.episodes = (jsonObject.getJSONObject("nextAiringEpisode").getInt("episode") - 1);
+        }
+        else{
+            this.episodes = jsonObject.getInt("episodes");
+        }
     }
 
 
