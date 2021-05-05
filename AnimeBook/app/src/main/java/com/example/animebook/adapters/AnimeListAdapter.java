@@ -84,9 +84,11 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
         }
     }
 
-    public void addAll(List<Anime> animeList){
+    public void addAll(List<Anime> animeList, boolean notify){
         animes.addAll(animeList);
-        notifyDataSetChanged();
+        if(notify) {
+            notifyDataSetChanged();
+        }
     }
 
 }

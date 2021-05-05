@@ -19,6 +19,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestHeaders;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.animebook.EndlessRecyclerViewScrollListener;
 import com.example.animebook.R;
 import com.example.animebook.adapters.AnimeListAdapter;
 import com.example.animebook.models.Anime;
@@ -42,8 +43,29 @@ public class AnimeListFragment extends Fragment {
     public static final String Url = "https://graphql.anilist.co";
     private AsyncHttpClient client;
     private RecyclerView rvAnimes;
+    private EndlessRecyclerViewScrollListener scrollListener;
     protected AnimeListAdapter animeListAdapter;
-    protected List<Anime> allAnimes;
+    protected ArrayList<Anime> allAnimes;
+
+    public static final String query = "query ( $page: Int, $perPage: Int) { # Define which variables will be used in the query (id)\n" +
+            " Page(page: $page, perPage: $perPage) {\n" +
+            "    media(type: ANIME sort: TRENDING_DESC status_not: NOT_YET_RELEASED ) {\n" +
+            "      id\n" +
+            "      title{\n" +
+            "        english\n" +
+            "        romaji\n" +
+            "      }\n" +
+            "      status\n" +
+            "      episodes\n" +
+            "      coverImage{\n" +
+            "        extraLarge\n" +
+            "      }\n" +
+            "      nextAiringEpisode{\n" +
+            "        episode\n" +
+            "      }\n" +
+            "    }\n" +
+            "  }\n"+
+            "}";
 
     public AnimeListFragment() {
         // Required empty public constructor
@@ -63,74 +85,90 @@ public class AnimeListFragment extends Fragment {
         client = new AsyncHttpClient();
 
        rvAnimes = view.findViewById(R.id.rvAnimes);
-       allAnimes = new ArrayList<>();
+       allAnimes = new ArrayList<Anime>();
        animeListAdapter = new AnimeListAdapter(getContext(), allAnimes);
 
        rvAnimes.setAdapter(animeListAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        rvAnimes.setLayoutManager(gridLayoutManager);
+        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, String.valueOf(page));
+                int currentSize = animeListAdapter.getItemCount();
+                loadDataFromApi(page + 1, false);
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                     animeListAdapter.notifyItemRangeInserted(currentSize, allAnimes.size() - 1);
+                    }
+                });
+            }
+        };
 
-        rvAnimes.setLayoutManager(linearLayoutManager);
+        rvAnimes.addOnScrollListener(scrollListener);
+
+        loadDataFromApi(null, true);
+
+        Log.i(TAG, String.valueOf(animeListAdapter.getItemCount()));
+
+    }
+
+    private void loadDataFromApi(Integer page, boolean notify){
         try {
-            sendRequest();
-        } catch (JSONException e) {
+            if(page == null){
+                page = 1;
+            }
+            JSONObject variables = new JSONObject()
+                    .put("page", page)
+                    .put("perPage", 50);
+
+            sendRequest(query, variables, notify);
+
+
+        } catch (JSONException e){
+            Log.e(TAG, e.toString());
+        }
+    }
+
+    public void sendRequest(String query, JSONObject variables, boolean notify){
+        try{
+            JSONObject body = new JSONObject().put("query", query).put("variables", variables);
+
+            RequestHeaders requestHeaders = new RequestHeaders();
+            requestHeaders.put("Content-Type", "application/json");
+            requestHeaders.put("Accept", "application/json");
+
+            RequestParams params = new RequestParams();
+
+            client.post(Url, requestHeaders, params, body.toString(), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Headers headers, JSON json) {
+//                Log.i(TAG, json.toString());
+                    try {
+
+                        JSONObject jsonObject = json.jsonObject;
+
+
+                        JSONArray results = jsonObject.getJSONObject("data").getJSONObject("Page").getJSONArray("media");
+
+                        animeListAdapter.addAll(Anime.fromJsonArray(results), notify);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                    Log.i(TAG, "request failed: " + s);
+                }
+            });
+        } catch (JSONException e){
             e.printStackTrace();
         }
-
     }
 
-    private void sendRequest() throws JSONException {
-        String query = "query ($genre: String) { # Define which variables will be used in the query (id)\n" +
-                "  Media (genre: $genre, type: ANIME) { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)\n" +
-                "    id\n" +
-                "    title {\n" +
-                "       english\n"+
-                "    }\n" +
-                "status\n"+
-                "episodes\n"+
-                "coverImage{\n"+
-                "   large\n"+
-                "   }\n" +
-                "  }\n" +
-                "}\n";
-
-        JSONObject variables = new JSONObject().put("genre", "Comedy");
-
-
-        JSONObject body = new JSONObject().put("query", query).put("variables", variables);
-
-
-        Log.i(TAG, body.toString(3));
-
-        RequestHeaders requestHeaders = new RequestHeaders();
-        requestHeaders.put("Content-Type", "application/json");
-        requestHeaders.put("Accept", "application/json");
-
-        RequestParams params = new RequestParams();
-
-        client.post(Url, requestHeaders, params, body.toString(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.i(TAG, json.toString());
-
-                JSONObject jsonObject = json.jsonObject;
-
-                try {
-                    JSONObject results = jsonObject.getJSONObject("data").getJSONObject("Media");
-                    Log.i(TAG, "Results: " + results.toString());
-                    allAnimes.add(new Anime(results));
-//                    allAnimes.addAll(Anime.fromJsonArray(results));
-                    animeListAdapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
-
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.i(TAG, "request failed: " + s);
-            }
-        });
-    }
 }
