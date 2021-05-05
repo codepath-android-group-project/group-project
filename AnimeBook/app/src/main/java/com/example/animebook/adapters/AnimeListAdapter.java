@@ -12,9 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-
-import com.bumptech.glide.request.target.Target;
+import com.example.animebook.GlideApp;
 import com.example.animebook.R;
 import com.example.animebook.models.Anime;
 
@@ -73,12 +71,13 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             tvEpisodes.setText(anime.getEpisodes());
             tvStatus.setText(anime.getStatus());
 
-            Glide.with(context).load(anime.getPosterPath()).fitCenter().into(ivCover);
+
+            GlideApp.with(context).load(anime.getPosterPath()).centerCrop().into(ivCover);
 
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, anime.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, anime.getPosterPath(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
