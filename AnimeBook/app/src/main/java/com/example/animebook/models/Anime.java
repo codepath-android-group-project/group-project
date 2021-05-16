@@ -17,7 +17,7 @@ public class Anime {
 
     public Anime(JSONObject jsonObject) throws JSONException {
         this.animeID = jsonObject.getInt("id");
-        this.posterPath = jsonObject.getJSONObject("coverImage").getString("extraLarge");
+        this.posterPath = jsonObject.getJSONObject("coverImage").getString("path");
         this.title = jsonObject.getJSONObject("title").getString("english");
         if(this.title.equals("null")){
             this.title = jsonObject.getJSONObject("title").getString("romaji");

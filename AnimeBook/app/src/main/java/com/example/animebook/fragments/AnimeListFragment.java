@@ -58,7 +58,7 @@ public class AnimeListFragment extends Fragment {
             "      status\n" +
             "      episodes\n" +
             "      coverImage{\n" +
-            "        extraLarge\n" +
+            "        path: extraLarge\n" +
             "      }\n" +
             "      nextAiringEpisode{\n" +
             "        episode\n" +
