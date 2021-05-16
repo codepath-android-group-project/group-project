@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp">
+
+    <ImageView
+        android:id="@+id/ivCover"
+        android:layout_width="match_parent"
+        android:layout_height="202dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ivCover"
+        android:layout_alignBottom="@+id/ivCover"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#D04E4545"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        tools:text="This is here for a long ass title idk what the title will be just need to knwo how it will look" />
+
+    <TextView
+        android:id="@+id/tvEpisodes"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivCover"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/anime_item_background"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        tools:text="15 ep" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivCover"
+        android:layout_alignEnd="@+id/ivCover"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_toEndOf="@+id/tvEpisodes"
+        android:background="@drawable/anime_item_background"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        tools:text="Completed" />
+
+</RelativeLayout>

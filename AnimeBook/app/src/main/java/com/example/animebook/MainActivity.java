@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.animebook.fragments.AnimeListFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,20 +36,22 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()){
                     case R.id.action_animeList:
-                        //fragment = animeFragment;
+                        fragment = new AnimeListFragment();
                         Log.i(TAG, "Anime List Selected");
                         break;
                     case R.id.action_search:
-                        //fragment = searchFragment;
+                        //TODO: Add your fragment here. Replace AnimeListFragment
+                        fragment = new AnimeListFragment();
                         Log.i(TAG, "Search Selected");
                         break;
                     //Add other cases as needed
                     default:
-                        //fragment = profileFragment;
+                        //TODO: Add your fragment here. Replace AnimeListFragment
+                        fragment = new AnimeListFragment();
                         Log.i(TAG, "Profile Selected");
                         break;
                 }
-                //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
