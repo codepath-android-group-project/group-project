@@ -1,20 +1,20 @@
 package com.example.animebook.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.RequestHeaders;
@@ -22,35 +22,37 @@ import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.animebook.EndlessRecyclerViewScrollListener;
 import com.example.animebook.R;
-import com.example.animebook.adapters.AnimeListAdapter;
+import com.example.animebook.adapters.SearchTabAdapter;
 import com.example.animebook.models.Anime;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import okhttp3.Headers;
 
+import static com.example.animebook.MainActivity.search_input;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AnimeListFragment} factory method to
+ * Use the {@link SearchTabFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AnimeListFragment extends Fragment {
+public class SearchTabFragment extends Fragment {
 
-    public static final String TAG = "AnimeListFragment";
-
+    public static final String TAG = "SearchTabFragment";
     public static final String Url = "https://graphql.anilist.co";
     private AsyncHttpClient client;
     private RecyclerView rvAnimes;
     private EndlessRecyclerViewScrollListener scrollListener;
-    protected AnimeListAdapter animeListAdapter;
+    protected SearchTabAdapter searchTabAdapter;
     protected ArrayList<Anime> allAnimes;
 
-    public static final String query = "query ( $page: Int, $perPage: Int) { # Define which variables will be used in the query (id)\n" +
+    public static final String query = "query ( $page: Int, $perPage: Int, $search: String) { # Define which variables will be used in the query (id)\n" +
             " Page(page: $page, perPage: $perPage) {\n" +
-            "    media(type: ANIME sort: TRENDING_DESC status_not: NOT_YET_RELEASED ) {\n" +
+            "    media(search: $search, type: ANIME) {\n" +
             "      id\n" +
             "      title{\n" +
             "        english\n" +
@@ -68,17 +70,18 @@ public class AnimeListFragment extends Fragment {
             "  }\n"+
             "}";
 
-    public AnimeListFragment() {
+    public SearchTabFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_anime_list, container, false);
+        return inflater.inflate(R.layout.fragment_search_tab, container, false);
     }
 
     @Override
@@ -86,25 +89,26 @@ public class AnimeListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         client = new AsyncHttpClient();
 
-       rvAnimes = view.findViewById(R.id.rvAnimes);
-       allAnimes = new ArrayList<Anime>();
-       animeListAdapter = new AnimeListAdapter(getContext(), allAnimes);
+        rvAnimes = view.findViewById(R.id.rvAnimes);
+        allAnimes = new ArrayList<Anime>();
+        searchTabAdapter = new SearchTabAdapter(getContext(), allAnimes);
 
-       rvAnimes.setAdapter(animeListAdapter);
+        rvAnimes.setAdapter(searchTabAdapter);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         rvAnimes.setLayoutManager(gridLayoutManager);
+
         scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.i(TAG, String.valueOf(page));
-                int currentSize = animeListAdapter.getItemCount();
+                int currentSize = searchTabAdapter.getItemCount();
                 loadDataFromApi(page + 1, false);
                 view.post(new Runnable() {
                     @Override
                     public void run() {
-                     animeListAdapter.notifyItemRangeInserted(currentSize, allAnimes.size() - 1);
+                        searchTabAdapter.notifyItemRangeInserted(currentSize, allAnimes.size() - 1);
                     }
                 });
             }
@@ -114,9 +118,9 @@ public class AnimeListFragment extends Fragment {
 
         loadDataFromApi(null, true);
 
-        Log.i(TAG, String.valueOf(animeListAdapter.getItemCount()));
-
+        Log.i(TAG, String.valueOf(searchTabAdapter.getItemCount()));
     }
+
 
     private void loadDataFromApi(Integer page, boolean notify){
         try {
@@ -125,7 +129,8 @@ public class AnimeListFragment extends Fragment {
             }
             JSONObject variables = new JSONObject()
                     .put("page", page)
-                    .put("perPage", 50);
+                    .put("perPage", 50)
+                    .put("search", search_input);
 
             sendRequest(query, variables, notify);
 
@@ -156,7 +161,7 @@ public class AnimeListFragment extends Fragment {
 
                         JSONArray results = jsonObject.getJSONObject("data").getJSONObject("Page").getJSONArray("media");
 
-                        animeListAdapter.addAll(Anime.fromJsonArray(results), notify);
+                        searchTabAdapter.addAll(Anime.fromJsonArray(results), notify);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,10 +172,12 @@ public class AnimeListFragment extends Fragment {
                 public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                     Log.i(TAG, "request failed: " + s);
                 }
+
             });
         } catch (JSONException e){
             e.printStackTrace();
         }
     }
+
 
 }
