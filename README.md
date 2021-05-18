@@ -32,7 +32,7 @@ An app which recommends you an anime to watch through certain options that the u
 **Required Must-have Stories**
 
 - [x] User can create account and log in
-- [x]User can look at the homescreen
+- [x] User can look at the homescreen
 - [x] User can look at their profile
 - [x] User can search for animes
 - [ ] User can see details about what was searched including a link that redirects to the streaming service needed
