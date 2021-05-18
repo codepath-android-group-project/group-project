@@ -32,7 +32,7 @@ An app which recommends you an anime to watch through certain options that the u
 **Required Must-have Stories**
 
 - [x] User can create account and log in
-- User can look at the homescreen
+- [x]User can look at the homescreen
 - [x] User can look at their profile
 - [x] User can search for animes
 - [ ] User can see details about what was searched including a link that redirects to the streaming service needed
@@ -81,7 +81,7 @@ An app which recommends you an anime to watch through certain options that the u
 ## Progress Gif
 
 <img src="https://cdn.discordapp.com/attachments/824288728121868300/839343860110327808/progress.gif">
-<img src="https://media1.giphy.com/media/TVKYkNXOQXdzhxB507/giphy.gif?cid=790b7611fcd58ce1151e3f0b233e09ec3abc05a3d71c8268&rid=giphy.gif&ct=g">
+<img src="https://media0.giphy.com/media/qy2Nzj1xUPTkv1hfDp/giphy.gif?cid=790b7611bcd036c2882d867a160b250a6c1969664cce1cdf&rid=giphy.gif&ct=g">
 
 ### [BONUS] Digital Wireframes & Mockups
 
