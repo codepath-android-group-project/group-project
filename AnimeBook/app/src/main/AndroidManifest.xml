@@ -15,6 +15,7 @@
         android:theme="@style/Theme.AnimeBook">
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".MainActivity" />
+        <activity android:name=".DetailActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
