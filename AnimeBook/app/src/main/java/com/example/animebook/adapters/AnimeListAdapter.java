@@ -1,6 +1,7 @@
 package com.example.animebook.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.animebook.DetailActivity;
 import com.example.animebook.GlideApp;
 import com.example.animebook.R;
 import com.example.animebook.models.Anime;
@@ -77,7 +79,9 @@ public class AnimeListAdapter extends RecyclerView.Adapter<AnimeListAdapter.View
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, anime.getPosterPath(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("ID", anime.getAnimeID());
+                    context.startActivity(i);
                 }
             });
         }
