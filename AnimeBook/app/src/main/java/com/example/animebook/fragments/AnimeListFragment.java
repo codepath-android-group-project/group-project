@@ -76,6 +76,7 @@ public class AnimeListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // this hides the search menu from the anime list activity (it does hide the action bar completely though)
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_anime_list, container, false);

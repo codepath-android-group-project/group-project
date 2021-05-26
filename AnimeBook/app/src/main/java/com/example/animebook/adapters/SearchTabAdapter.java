@@ -86,7 +86,10 @@ public class SearchTabAdapter extends RecyclerView.Adapter<SearchTabAdapter.View
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, anime.getPosterPath(), Toast.LENGTH_SHORT).show();
+                    // remove the comment lines here when merge is done so it can access the details activity
+                    //Intent i = new Intent(context, DetailActivity.class);
+                    //i.putExtra("ID", anime.getAnimeID());
+                    //context.startActivity(i);
                 }
             });
         }

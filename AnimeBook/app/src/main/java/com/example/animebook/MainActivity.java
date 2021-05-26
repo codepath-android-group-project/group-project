@@ -17,6 +17,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
+    // this is needed for search
     public static String search_input;
 
     BottomNavigationView bottomNavigationView;
