@@ -50,7 +50,7 @@ public class AnimeListFragment extends Fragment {
 
     public static final String query = "query ( $page: Int, $perPage: Int) { # Define which variables will be used in the query (id)\n" +
             " Page(page: $page, perPage: $perPage) {\n" +
-            "    media(type: ANIME sort: TRENDING_DESC status_not: NOT_YET_RELEASED ) {\n" +
+            "    media(type: ANIME, sort: TRENDING_DESC, status_not: NOT_YET_RELEASED, isAdult: false ) {\n" +
             "      id\n" +
             "      title{\n" +
             "        english\n" +

@@ -52,7 +52,7 @@ public class SearchTabFragment extends Fragment {
 
     public static final String query = "query ( $page: Int, $perPage: Int, $search: String) { # Define which variables will be used in the query (id)\n" +
             " Page(page: $page, perPage: $perPage) {\n" +
-            "    media(search: $search, type: ANIME) {\n" +
+            "    media(search: $search, type: ANIME, isAdult: false, sort: TRENDING_DESC    ) {\n" +
             "      id\n" +
             "      title{\n" +
             "        english\n" +
