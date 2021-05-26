@@ -1,5 +1,5 @@
 
-# AnimeSearch
+# AnimeBook
 
 ## Table of Contents
 
@@ -33,10 +33,10 @@ An app which recommends you an anime to watch through certain options that the u
 **Required Must-have Stories**
 
 - [x] User can create account and log in
-- User can look at the homescreen
-- [x] User can look at their profile
+- [x] User can look at the homescreen
+- [ ] User can look at their profile
 - [x] User can search for animes
-- [ ] User can see details about what was searched including a link that redirects to the streaming service needed
+- [x] User can see details about what was searched including a link that redirects to the streaming service needed
 
 **Optional Nice-to-have Stories**
 
@@ -131,10 +131,10 @@ An app which recommends you an anime to watch through certain options that the u
 
   | HTTP Verb | Endpoint     | Description            |
   | --------- | ------------ | ---------------------- |
-  | `GET`     | /title       | get anime title        |
-  | `GET`     | /description | get anime desicription |
-  | `GET`     | /genre       | get anime genre        |
-  | `GET`     | /year        | get release year       |
-  | `GET`     | /season      | get release season     |
-  | `GET`     | /format      | get anime format       |
+  | `POST`     | /title       | get anime title        |
+  | `POST`     | /description | get anime desicription |
+  | `POST`     | /genre       | get anime genre        |
+  | `POST`     | /year        | get release year       |
+  | `POST`     | /season      | get release season     |
+  | `POST`     | /format      | get anime format       |
 
